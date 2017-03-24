@@ -18,4 +18,4 @@ $options = [
 ];
 
 $content = file_get_contents($url, false, stream_context_create($options));
-file_put_contents(OUTPUT_FILE, $content);
+file_put_contents(OUTPUT_FILE, str_replace(';', ',', $content));
