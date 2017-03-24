@@ -1,6 +1,6 @@
 # keboola_download_application
 
-It downloads remote authenticated files.
+It downloads remote CSV authenticated files.
 
 Usage
 -----
