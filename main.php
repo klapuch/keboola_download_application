@@ -7,12 +7,8 @@ define('CONFIG_FILE', DATA_DIRECTORY . DIRECTORY_SEPARATOR . 'config.json');
 
 $config = json_decode(file_get_contents(CONFIG_FILE), true);
 $parameters = $config['parameters'];
-var_dump($config);
 
 list($url, $username, $password) = [$parameters['url'], $parameters['username'], $parameters['password']];
-var_dump($url);
-var_dump($username);
-var_dump($password);
 
 $options = [
 	'http' => [
@@ -23,4 +19,8 @@ $options = [
 
 $context = stream_context_create($options);
 $content = file_get_contents($url, false, $context);
+var_dump(substr($content, 0, 1000));
 file_put_contents(OUTPUT_FILE, $content);
+if (file_exists(OUTPUT_FILE)) {
+	var_dump('File exists');
+}
