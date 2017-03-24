@@ -2,8 +2,8 @@
 declare(strict_types = 1);
 
 define('DATA_DIRECTORY', getenv('KBC_DATADIR'));
-define('OUTPUT_FILE', DATA_DIRECTORY . DIRECTORY_SEPARATOR . 'out' . DIRECTORY_SEPARATOR . 'tables' . DIRECTORY_SEPARATOR . 'reports.csv');
-define('CONFIG_FILE', DATA_DIRECTORY . DIRECTORY_SEPARATOR . 'config.json');
+define('OUTPUT_FILE', sprintf('%s/out/tables/reports.csv', DATA_DIRECTORY));
+define('CONFIG_FILE', sprintf('%s/config.json', DATA_DIRECTORY));
 
 $config = json_decode(file_get_contents(CONFIG_FILE), true);
 $parameters = $config['parameters'];
@@ -17,10 +17,5 @@ $options = [
 	],
 ];
 
-$context = stream_context_create($options);
-$content = file_get_contents($url, false, $context);
-var_dump(substr($content, 0, 1000));
+$content = file_get_contents($url, false, stream_context_create($options));
 file_put_contents(OUTPUT_FILE, $content);
-if (file_exists(OUTPUT_FILE)) {
-	var_dump('File exists');
-}
