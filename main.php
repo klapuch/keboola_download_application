@@ -9,6 +9,7 @@ $config = json_decode(file_get_contents(CONFIG_FILE), true);
 $parameters = $config['parameters'];
 
 list($url, $username, $password) = [$parameters['url'], $parameters['username'], $parameters['password']];
+list($oldDelimiter, $newDelimiter) = [$parameters['old_delimiter'] ?? ',', $parameters['new_delimiter'] ?? ','];
 
 $options = [
 	'https' => [
@@ -18,4 +19,4 @@ $options = [
 ];
 
 $content = file_get_contents($url, false, stream_context_create($options));
-file_put_contents(OUTPUT_FILE, str_replace(';', ',', $content));
+file_put_contents(OUTPUT_FILE, str_replace($oldDelimiter, $newDelimiter, $content));
