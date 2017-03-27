@@ -17,4 +17,4 @@ Usage
 }
 ```
 
-`old_delimiter` and `new_delimiter` are optional. They are `,`(comma) by default.
+`username`, `password`, `old_delimiter` and `new_delimiter` are optional. Delimiters are `,`(comma) by default.
