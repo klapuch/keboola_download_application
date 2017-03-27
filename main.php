@@ -12,7 +12,7 @@ list($url, $username, $password) = [$parameters['url'], $parameters['username'],
 list($oldDelimiter, $newDelimiter) = [$parameters['old_delimiter'] ?? ',', $parameters['new_delimiter'] ?? ','];
 
 $options = [
-	'https' => [
+	'http' => [
 		'method' => 'GET',
 		'header' => sprintf('Authorization: Basic %s', base64_encode("$username:$password")),
 	],
