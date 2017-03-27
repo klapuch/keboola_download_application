@@ -11,7 +11,7 @@ $parameters = $config['parameters'];
 list($url, $username, $password) = [$parameters['url'], $parameters['username'], $parameters['password']];
 
 $options = [
-	'http' => [
+	'https' => [
 		'method' => 'GET',
 		'header' => sprintf('Authorization: Basic %s', base64_encode("$username:$password")),
 	],
