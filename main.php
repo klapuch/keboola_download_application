@@ -21,4 +21,5 @@ if ($username !== null && $password !== null) {
 }
 
 $content = file_get_contents($url, false, stream_context_create($options));
-file_put_contents(OUTPUT_FILE, str_replace($oldDelimiter, $newDelimiter, $content));
+$encodedContent = mb_detect_encoding($content) === 'UTF-8' ? $content : iconv('WINDOWS-1250', 'UTF-8', $content);
+file_put_contents(OUTPUT_FILE, str_replace($oldDelimiter, $newDelimiter, $encodedContent));
