@@ -23,15 +23,19 @@ if ($username !== null && $password !== null) {
 $content = file_get_contents($url, false, stream_context_create($options));
 $encodedContent = mb_detect_encoding($content) === 'UTF-8' ? $content : iconv('WINDOWS-1250', 'UTF-8', $content);
 
-$stream = fopen('php://temp', 'r+');
-fwrite($stream, $encodedContent);
-rewind($stream);
-$columns = count(fgetcsv($stream, 0, $oldDelimiter));
-rewind($stream);
+$temp = fopen('php://temp', 'r+');
+fwrite($temp, file_get_contents(__DIR__ . '/history_orders.csv'));
+rewind($temp);
+$columns = count(fgetcsv($temp, 0, $oldDelimiter));
+rewind($temp);
 
-while (($row = fgetcsv($stream, 0, $oldDelimiter)) !== false) {
+touch(OUTPUT_FILE);
+$output = fopen(OUTPUT_FILE, 'r+');
+
+while (($row = fgetcsv($temp, 0, $oldDelimiter)) !== false) {
 	if ($columns !== count($row))
 		array_pop($row);
-	file_put_contents(OUTPUT_FILE, implode($newDelimiter, $row) . PHP_EOL, FILE_APPEND);
+	fputcsv($output, $row);
 }
-fclose($stream);
+fclose($temp);
+fclose($output);
