@@ -22,11 +22,16 @@ if ($username !== null && $password !== null) {
 
 $content = file_get_contents($url, false, stream_context_create($options));
 $encodedContent = mb_detect_encoding($content) === 'UTF-8' ? $content : iconv('WINDOWS-1250', 'UTF-8', $content);
-file_put_contents(
-	OUTPUT_FILE,
-	str_replace(
-		$oldDelimiter,
-		$newDelimiter,
-		preg_replace(sprintf('~%s\n|\r~', $oldDelimiter), PHP_EOL, $encodedContent)
-	)
-);
+
+$stream = fopen('php://temp', 'r+');
+fwrite($stream, $encodedContent);
+rewind($stream);
+$columns = count(fgetcsv($stream, 0, $oldDelimiter));
+rewind($stream);
+
+while (($row = fgetcsv($stream, 0, $oldDelimiter)) !== false) {
+	if ($columns !== count($row))
+		array_pop($row);
+	file_put_contents(OUTPUT_FILE, implode($newDelimiter, $row) . PHP_EOL, FILE_APPEND);
+}
+fclose($stream);
