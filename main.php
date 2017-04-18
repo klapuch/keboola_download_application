@@ -35,7 +35,7 @@ $output = fopen(OUTPUT_FILE, 'r+');
 while (($row = fgetcsv($temp, 0, $oldDelimiter)) !== false) {
 	if ($columns !== count($row))
 		array_pop($row);
-	fputcsv($output, $row);
+	fputcsv($output, $row, $newDelimiter);
 }
 fclose($temp);
 fclose($output);
