@@ -24,7 +24,7 @@ $content = file_get_contents($url, false, stream_context_create($options));
 $encodedContent = mb_detect_encoding($content) === 'UTF-8' ? $content : iconv('WINDOWS-1250', 'UTF-8', $content);
 
 $temp = fopen('php://temp', 'r+');
-fwrite($temp, file_get_contents(__DIR__ . '/history_orders.csv'));
+fwrite($temp, $encodedContent);
 rewind($temp);
 $columns = count(fgetcsv($temp, 0, $oldDelimiter));
 rewind($temp);
